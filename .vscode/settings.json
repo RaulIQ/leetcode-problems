@@ -1,0 +1,14 @@
+{
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.quickSuggestions": {
+    "comments": "off",
+    "strings": "off",
+    "other": "off"
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.inlineSuggest.enabled": false,
+  "github.copilot.enable": {
+    "*": false
+  }
+}
