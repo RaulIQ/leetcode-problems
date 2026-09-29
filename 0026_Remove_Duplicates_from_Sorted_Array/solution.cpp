@@ -12,6 +12,8 @@ public:
                 slow++;
             }
             fast++;
+
+            
         }
         return slow + 1;
     }
