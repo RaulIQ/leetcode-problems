@@ -6,23 +6,17 @@ using namespace std;
 class Solution {
 public:
     double findMaxAverage(vector<int>& nums, int k) {
-        if (k == 1) {
-            int maxn = -1111111111;
-            for (int c : nums) {
-                maxn = max(c, maxn);
-            }
-            return maxn;
-        }
-
-        int max_sum = 0;
+        int last_sum = 0;
 
         for (int i = 0; i < k; i++) {
-            max_sum += nums[i];
+            last_sum += nums[i];
         }
 
+        int max_sum = last_sum;
+
         for (int i = 1; (i + k - 1) < nums.size(); i++) {
-            int new_sum = max_sum - nums[i - 1] + nums[i + k - 1];
-            max_sum = max(max_sum, new_sum);
+            last_sum = last_sum - nums[i - 1] + nums[i + k - 1];
+            max_sum = max(max_sum, last_sum);
         }
 
         return (double)max_sum / (double)k;
@@ -32,9 +26,9 @@ public:
 int main() {
     Solution sol;
 
-    vector<int> prices = {0, 4, 0, 3, 2};
+    vector<int> prices = {4, 0, 4, 3, 3};
 
-    double n = sol.findMaxAverage(prices, 4);
+    double n = sol.findMaxAverage(prices, prices.size());
 
     cout << n << endl;
 
