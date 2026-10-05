@@ -3,40 +3,61 @@
 #include <unordered_map>
 using namespace std;
 
+class Stack {
+private:
+    string s;
+
+public:
+    Stack() {
+        this->s = "";
+    }
+
+    void push_back(char c) {
+        s.push_back(c);
+    }
+
+    char get_last() {
+        if (this->is_empty()){
+            return ' ';
+        }
+        return s[s.size() - 1];
+    }
+
+    void pop_back() {
+        s.pop_back();
+    }
+
+    bool is_empty() {
+        return s == "";
+    }
+};
+
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
-        int best = INT_MIN;
-        int len = 0;
-        int left = 0;
-        unordered_map<char, int> storage;
-        for (int right = 0; right < s.size(); right++) {
-            if (storage[s[right]] > 0) {
-                while (s[left] != s[right]) {
-                    len--;
-                    storage[s[left]]--;
-                    left++;
-                }
-                len--;
-                storage[s[left]]--;
-                left++;
-            } 
-            storage[s[right]]++;
-            len++;
-            best = max(best, len);
+    bool isValid(string s) {
+        Stack my_stack;
+        for (char c : s) {
+            char b = my_stack.get_last();
+            if ((b == '(' && c == ')') |
+                (b == '[' && c == ']') |
+                (b == '{' && c == '}') 
+            ) {
+                my_stack.pop_back();
+            } else {
+                my_stack.push_back(c);
+            }
         }
 
-
-        return best == INT_MIN ? 0 : best;
-    }
+        return my_stack.is_empty();
+    }   
 };
 
 int main() {
     Solution sol;
 
-    string s = "";
+    string s = "({[]}))";
 
-    double n = sol.lengthOfLongestSubstring(s);
+    bool n = sol.isValid(s);
 
     cout << n << endl;
 
