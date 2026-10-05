@@ -3,54 +3,28 @@
 #include <unordered_map>
 using namespace std;
 
-class Stack {
-private:
-    string s;
-
-public:
-    Stack() {
-        this->s = "";
-    }
-
-    void push_back(char c) {
-        s.push_back(c);
-    }
-
-    char get_last() {
-        if (this->is_empty()){
-            return ' ';
-        }
-        return s[s.size() - 1];
-    }
-
-    void pop_back() {
-        s.pop_back();
-    }
-
-    bool is_empty() {
-        return s == "";
-    }
-};
-
 class Solution {
 public:
     bool isValid(string s) {
-        Stack my_stack;
+        stack<char> st;
         for (char c : s) {
-            char b = my_stack.get_last();
-            if ((b == '(' && c == ')') |
-                (b == '[' && c == ']') |
-                (b == '{' && c == '}') 
-            ) {
-                my_stack.pop_back();
+            if (c == '(' || c == '[' || c == '{') {
+                st.push(c);
             } else {
-                my_stack.push_back(c);
+                if (st.empty()) return false;
+                char open = st.top();
+                if ((c == ')' && open != '(') ||
+                    (c == ']' && open != '[') ||
+                    (c == '}' && open != '{')) {
+                    return false;
+                }
+                st.pop();
             }
         }
-
-        return my_stack.is_empty();
-    }   
+        return st.empty();
+    }
 };
+
 
 int main() {
     Solution sol;
