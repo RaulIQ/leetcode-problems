@@ -6,8 +6,17 @@ using namespace std;
 
 class MyQueue {
 private:
-    std::stack<int> in;
-    std::stack<int> out;
+    stack<int> in;
+    stack<int> out;
+
+    void move() {
+        if (out.empty()) {
+            while (!in.empty()) {
+                out.push(in.top());
+                in.pop();
+            }
+        }
+    }
 
 public:
     MyQueue() {}
@@ -15,25 +24,14 @@ public:
     void push(int x) { in.push(x); }
 
     int pop() {
-        if (out.empty()) {
-            while (!in.empty()) {
-                out.push(in.top());
-                in.pop();
-            }
-        }
-
+        move();
         int x = out.top();
         out.pop();
         return x;
     }
 
     int peek() {
-        if (out.empty()) {
-            while (!in.empty()) {
-                out.push(in.top());
-                in.pop();
-            }
-        }
+        move();
         return out.top();
     }
 
