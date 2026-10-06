@@ -1,61 +1,47 @@
 #include <bits/stdc++.h>
 
+#include <stack>
 #include <unordered_map>
 using namespace std;
 
 class MyQueue {
 private:
-    vector<int> queue;
+    std::stack<int> in;
+    std::stack<int> out;
 
 public:
     MyQueue() {}
 
-    void push(int x) { this->queue.push_back(x); }
+    void push(int x) { in.push(x); }
 
     int pop() {
-        int r = this->queue[0];
-        if (this->queue.size() > 1) {
-            for (int i = 1; i < this->queue.size(); i++) {
-                this->queue[i - 1] = this->queue[i];
+        if (out.empty()) {
+            while (!in.empty()) {
+                out.push(in.top());
+                in.pop();
             }
         }
-        this->queue.pop_back();
-        return r;
+
+        int x = out.top();
+        out.pop();
+        return x;
     }
 
-    int peek() { return this->queue[0]; }
+    int peek() {
+        if (out.empty()) {
+            while (!in.empty()) {
+                out.push(in.top());
+                in.pop();
+            }
+        }
+        return out.top();
+    }
 
-    bool empty() { return this->queue.size() == 0; }
-
-    vector<int> get_queue() { return this->queue; }
+    bool empty() { return in.empty() && out.empty(); }
 };
 
 int main() {
     MyQueue myQueue;
-    myQueue.push(1);  // queue is: [1]
-    vector<int> q = myQueue.get_queue();
-    for (int n : q) {
-        cout << n << ", ";
-    }
-    cout << endl;
-
-    myQueue.push(2);  // queue is: [1, 2] (leftmost is front of the queue)
-    q = myQueue.get_queue();
-    for (int n : q) {
-        cout << n << ", ";
-    }
-    cout << endl;
-
-    int f = myQueue.peek();  // return 1
-    cout << f << endl;
-    f = myQueue.pop();
-    q = myQueue.get_queue();
-    for (int n : q) {
-        cout << n << ", ";
-    }
-    cout << endl;
-
-    myQueue.empty();  // return false
 
     return 0;
 }
