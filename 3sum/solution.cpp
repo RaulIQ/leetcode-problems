@@ -4,38 +4,40 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        vector<vector<int>> in;
-        for (int i = 0; i < nums.size() - 2; i++) {
-            unordered_map<int, int> seen;
-            int target = -nums[i];
+        vector<vector<int>> out;
+        sort(nums.begin(), nums.end());
 
-            for (int j = i + 1; j < nums.size(); j++) {
-                int r = target - nums[j];
-                if (seen.contains(r)) {
-                    in.push_back({nums[i], nums[j], nums[seen[r]]});
+        int size = static_cast<int>(nums.size());
+        for (int i = 0; i + 2 < size; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int t = -nums[i];
+            int n = i + 1;
+            int j = nums.size() - 1;
+
+            while (n < j) {
+                int sum = nums[n] + nums[j];
+                if (sum < t) {
+                    n++;
+                } else if (sum > t) {
+                    j--;
                 } else {
-                    seen[nums[j]] = j;
+                    out.push_back({nums[i], nums[j], nums[n]});
+                    n++;
+                    j--;
+
+                    while (n < j && nums[n] == nums[n - 1]) {
+                        n++;
+                    }
+                    while (n < j && nums[j] == nums[j + 1]) {
+                        j--;
+                    }
                 }
             }
         }
 
-        vector<vector<int>> out;
-        unordered_map<string, int> seen_out;
-
-        for (vector<int> v : in) {
-            vector<int> p = v;
-            sort(p.begin(), p.end());
-            string s;
-            for (int i : p) {
-                s.append(to_string(i));
-            }
-
-            if (!seen_out.contains(s)) {
-                out.push_back(v);
-                seen_out[s]++;
-            }
-
-        }
         return out;
     }
 };
