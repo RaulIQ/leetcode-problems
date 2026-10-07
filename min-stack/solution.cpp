@@ -12,12 +12,10 @@ public:
     MinStack() {}
 
     void push(int value) {
-        if (!this->my_stack.empty()) {
-            auto& [old_val, old_minval] = this->my_stack.top();
-            this->my_stack.push({value, min(value, old_minval)});
-        } else {
-            this->my_stack.push({value, value});
-        }
+        int min_val = this->my_stack.empty()
+                          ? value
+                          : min(value, this->my_stack.top().second);
+        this->my_stack.push({value, min_val});
     }
 
     void pop() { this->my_stack.pop(); }
