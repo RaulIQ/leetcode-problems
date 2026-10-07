@@ -4,21 +4,38 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        vector<vector<int>> out;
-        for (int i = 0; i < nums.size() - 3; i++) {
+        vector<vector<int>> in;
+        for (int i = 0; i < nums.size() - 2; i++) {
             unordered_map<int, int> seen;
             int target = -nums[i];
 
             for (int j = i + 1; j < nums.size(); j++) {
                 int r = target - nums[j];
                 if (seen.contains(r)) {
-                    out.push_back({nums[i], nums[j], nums[seen[r]]});
+                    in.push_back({nums[i], nums[j], nums[seen[r]]});
                 } else {
-                    seen[r] = j;
+                    seen[nums[j]] = j;
                 }
             }
         }
 
+        vector<vector<int>> out;
+        unordered_map<string, int> seen_out;
+
+        for (vector<int> v : in) {
+            vector<int> p = v;
+            sort(p.begin(), p.end());
+            string s;
+            for (int i : p) {
+                s.append(to_string(i));
+            }
+
+            if (!seen_out.contains(s)) {
+                out.push_back(v);
+                seen_out[s]++;
+            }
+
+        }
         return out;
     }
 };
