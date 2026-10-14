@@ -4,19 +4,25 @@ using namespace std;
 class Solution {
 public:
     int mySqrt(int x) {
+
+        if ((x == 0) || (x == 1)) {
+            return x;
+        }
         int l = 0;
-        int r = x;
+        int r = x / 2 + 1;
 
         while (l < r) {
-            int n = (l + r) / 2;
-            if (n * n < x) {
+            long n = (l + r) / 2;
+            if (n * n > x) {
+                r = n;
+            } else if (n * n < x) {
                 l = n + 1;
             } else {
-                r--;
+                return n;
             }
         }
 
-        return l;
+        return l - 1;
     }
 };
 
@@ -24,7 +30,7 @@ public:
 int main() {
     Solution sol;
 
-    int num = 8;
+    int num = 15;
     auto result = sol.mySqrt(num);
 
     cout << result << endl;
